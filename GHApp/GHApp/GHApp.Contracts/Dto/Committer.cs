@@ -3,15 +3,16 @@ using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
-    public class Committer
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+	[Serializable]
+	public class Committer
+	{
+		[JsonProperty("name")]
+		public string Name { get; set; }
 
-        [JsonProperty("email")]
-        public string Email { get; set; }
+		[JsonProperty("email")]
+		public string Email { get; set; }
 
-        [JsonProperty("date")]
-        public DateTime Date { get; set; }
-    }
+		[JsonProperty("date")]
+		public DateTime Date { get; set; }
+	}
 }

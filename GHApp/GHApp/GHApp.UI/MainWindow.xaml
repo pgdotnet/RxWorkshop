@@ -14,7 +14,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0" Text="{Binding Text}" Margin="4" />
+            <!--<TextBox Grid.Row="0" Text="{Binding Text}" Margin="4" />-->
+            <Button Grid.Row="0" Content="Click!" Click="ButtonBase_OnClick" />
 
             <ListView Grid.Row="1" ItemsSource="{Binding SearchResults}" Margin="4">
                 <ListView.ItemTemplate>

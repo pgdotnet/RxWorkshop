@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Reactive;
 
 namespace GHApp.Communication
 {
-    public interface ICommunicationChannel<T>
-    {
-        IObservable<T> MessageStream { get; }
+	public interface ICommunicationChannel
+	{
+		IObservable<object> MessageStream { get; }
 
-        IObservable<int> SendMessage(T message);
-    }
+		IObservable<Unit> SendMessage(object message);
+	}
 }

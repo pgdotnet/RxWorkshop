@@ -1,6 +1,6 @@
 ﻿namespace GHApp.Communication
 {
-	public struct ServerConfig : IChannelConfig
+	public struct ChannelConfig : IChannelConfig
 	{
 		public string Address { get; set; }
 
