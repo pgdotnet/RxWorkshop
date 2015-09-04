@@ -78,6 +78,20 @@ namespace Demos
             Console.WriteLine();
         }
 
+        public static void NewThreadPlusCurrScheduler()
+        {
+            Console.WriteLine("-----NEW THREAD + curr thread pool SCHEDULER");
+            SchedulersDemo(NewThreadScheduler.Default, CurrentThreadScheduler.Instance);
+            Console.WriteLine();
+        }
+
+        public static void NewThreadPlusImmediateScheduler()
+        {
+            Console.WriteLine("-----NEW THREAD + immediate thread pool SCHEDULER");
+            SchedulersDemo(NewThreadScheduler.Default, ImmediateScheduler.Instance);;
+            Console.WriteLine();
+        }
+
         public static void ImmediateSchedulerSubOb()
         {
             Console.WriteLine("-----IMMEDIATE BOTH");

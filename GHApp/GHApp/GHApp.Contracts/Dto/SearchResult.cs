@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
+    [Serializable]
     public class SearchResult
     {
         [JsonProperty("total_count")]

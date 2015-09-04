@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
+    [Serializable]
     public class Committer
     {
         [JsonProperty("name")]

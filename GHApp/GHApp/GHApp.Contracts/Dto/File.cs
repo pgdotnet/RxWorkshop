@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
+    [Serializable]
     public class File
     {
-
         [JsonProperty("sha")]
         public string Sha { get; set; }
 

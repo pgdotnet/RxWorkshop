@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
+    [Serializable]
     public class CommitInfo
     {
         [JsonProperty("author")]

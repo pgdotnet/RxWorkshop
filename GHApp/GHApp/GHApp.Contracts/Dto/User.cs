@@ -3,11 +3,14 @@ using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
 {
+    [Serializable]
     public class User
     {
         public string Login { get; set; }
         public int Id { get; set; }
+        [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }
+        [JsonProperty("gravatar_url")]
         public string GravatarId { get; set; }
         [JsonProperty()]
         public Uri Url { get; set; }

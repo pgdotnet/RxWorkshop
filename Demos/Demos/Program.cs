@@ -18,6 +18,7 @@ namespace Demos
             Schedulers.CurrThreadScheduler();
             Schedulers.CurrThreadPlusNewThreadScheduler();
             Schedulers.CurrThreadPlusThreadPoolScheduler();
+            Schedulers.NewThreadPlusCurrScheduler();
             Schedulers.ImmediateSchedulerSubOb();
             Schedulers.ImmediateSchedulerSubThreadPoolOb();
             Schedulers.ImmediateSchedulerEventLoopObs();
