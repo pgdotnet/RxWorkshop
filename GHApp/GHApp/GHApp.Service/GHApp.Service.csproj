@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Demos.cs" />
     <Compile Include="GithubBrowser.cs" />
+    <Compile Include="GitHubUserSearchService.cs" />
     <Compile Include="HttpClientFactory.cs" />
     <Compile Include="IHttpClientFactory.cs" />
     <Compile Include="Program.cs" />

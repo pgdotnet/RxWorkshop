@@ -6,6 +6,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
 using Newtonsoft.Json;

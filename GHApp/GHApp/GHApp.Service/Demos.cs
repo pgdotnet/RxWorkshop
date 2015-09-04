@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
 
@@ -9,10 +11,13 @@ namespace GHApp.Service
     public class Demos
     {
         private readonly IGithubBrowser _githubBrowser;
+        private readonly IGitHubUserSearchService _userSearchService;
 
         public Demos()
         {
-            _githubBrowser = new GithubBrowser(new HttpClientFactory());
+            var factory = new HttpClientFactory();
+            _githubBrowser = new GithubBrowser(factory);
+            _userSearchService = new GitHubUserSearchService(factory);
         }
 
         public void Demo1()
@@ -34,6 +39,14 @@ namespace GHApp.Service
                 .GetCommits(someRepo)
                 .Subscribe(v => { }, error => { }, () => { });
             Console.ReadKey();
+        }
+
+        public void Demo3()
+        {
+            _userSearchService.FindUser("gregj").Subscribe(
+                p => Console.WriteLine("Found {0}", p.Count()),
+                err => Console.WriteLine("Error!"),
+                () => Console.WriteLine("All Done!"));
         }
 
         public void RepoWatcherComponentDemo()

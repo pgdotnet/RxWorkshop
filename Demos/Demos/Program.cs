@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace Demos
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Subjects.Subject();
             Subjects.BehaviorSubject();
             Subjects.ReplaySubject();
             Subjects.AsyncSubject();
+
+            Schedulers.CurrThreadScheduler();
+            Schedulers.CurrThreadPlusNewThreadScheduler();
+            Schedulers.CurrThreadPlusThreadPoolScheduler();
+            Schedulers.NewThreadPlusCurrScheduler();
+            Schedulers.ImmediateSchedulerSubOb();
+            Schedulers.ImmediateSchedulerSubThreadPoolOb();
+            Schedulers.ImmediateSchedulerEventLoopObs();
         }
     }
 }
