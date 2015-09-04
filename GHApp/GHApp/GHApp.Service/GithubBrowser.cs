@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
 using Newtonsoft.Json;
@@ -11,6 +15,9 @@ namespace GHApp.Service
     public class GithubBrowser : IGithubBrowser
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly Subject<Commit> _feedSubject = new Subject<Commit>();
+        private readonly Dictionary<Repo, RepoWatcher> _watchers = new Dictionary<Repo, RepoWatcher>();
+        private readonly SerialDisposable _serial = new SerialDisposable();
 
         public GithubBrowser(IHttpClientFactory clientFactory)
         {
@@ -34,17 +41,40 @@ namespace GHApp.Service
             return WrapHttpGet<IEnumerable<Commit>>(uri);
         }
 
-        public IObservable<Unit> StopWatchingRepo(Repo repo)
-        {
-            throw new NotImplementedException();
-        }
-
         public IObservable<Unit> StartWatchingRepo(Repo repo)
         {
-            throw new NotImplementedException();
+            return Observable.Create<Unit>(obs =>
+            {
+                if (!_watchers.ContainsKey(repo))
+                {
+                    _watchers.Add(repo, new RepoWatcher(this, repo, TaskPoolScheduler.Default));
+                    RebuildCommitsFeed();
+                }
+
+                obs.OnNext(Unit.Default);
+                obs.OnCompleted();
+                return Disposable.Empty;
+            });
         }
 
-        public IObservable<Commit> NewCommitsFeed { get; }
+        public IObservable<Unit> StopWatchingRepo(Repo repo)
+        {
+            return Observable.Start(() =>
+            {
+                RepoWatcher watcher;
+                if (_watchers.TryGetValue(repo, out watcher))
+                {
+                    _watchers.Remove(repo);
+                    RebuildCommitsFeed();
+                    watcher.Dispose();
+                }
+            });
+        }
+
+        public IObservable<Commit> NewCommitsFeed
+        {
+            get { return _feedSubject.AsObservable(); }
+        }
 
         private IObservable<TResult> WrapHttpGet<TResult>(Uri uri)
         {
@@ -54,6 +84,14 @@ namespace GHApp.Service
                         _clientFactory.CreateHttpClient,
                         client => Observable.FromAsync(() => client.GetStringAsync(uri)))
                     .Select(JsonConvert.DeserializeObject<TResult>);
+        }
+
+        private void RebuildCommitsFeed()
+        {
+            _serial.Disposable = _watchers.Values
+                .Select(x => x.NewCommits)
+                .Merge()
+                .Subscribe(_feedSubject.OnNext);
         }
     }
 }

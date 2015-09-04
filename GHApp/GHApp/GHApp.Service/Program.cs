@@ -7,8 +7,7 @@ namespace GHApp.Service
         public static void Main()
         {
             var demos = new Demos();
-            demos.Demo1();
-            Console.ReadLine();
+            demos.WatchRepoDemo();
         }
     }
 }
