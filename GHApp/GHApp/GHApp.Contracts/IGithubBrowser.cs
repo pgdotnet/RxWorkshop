@@ -14,7 +14,7 @@ namespace GHApp.Contracts
         IObservable<IEnumerable<Commit>> GetCommits(Repo repo);
 
         IObservable<Unit> StopWatchingRepo(Repo repo);
-       
+
         IObservable<Unit> StartWatchingRepo(Repo repo);
 
         IObservable<Commit> NewCommitsFeed { get; }
