@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.Service", "GHApp.Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.UI", "GHApp.UI\GHApp.UI.csproj", "{017955B2-6F12-45F5-9753-7D43D209E170}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.Communication", "GHApp.Communication\GHApp.Communication.csproj", "{9B711206-1419-4009-8C6B-42131EE54355}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{017955B2-6F12-45F5-9753-7D43D209E170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017955B2-6F12-45F5-9753-7D43D209E170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017955B2-6F12-45F5-9753-7D43D209E170}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B711206-1419-4009-8C6B-42131EE54355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B711206-1419-4009-8C6B-42131EE54355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B711206-1419-4009-8C6B-42131EE54355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B711206-1419-4009-8C6B-42131EE54355}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -93,6 +93,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GHApp.Communication\GHApp.Communication.csproj">
+      <Project>{9b711206-1419-4009-8c6b-42131ee54355}</Project>
+      <Name>GHApp.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GHApp.Contracts\GHApp.Contracts.csproj">
+      <Project>{b05d0f41-bba4-465b-92bb-2f976d0db702}</Project>
+      <Name>GHApp.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
