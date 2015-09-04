@@ -66,12 +66,14 @@
     <Compile Include="Dto\CommitInfo.cs" />
     <Compile Include="Dto\Committer.cs" />
     <Compile Include="Dto\File.cs" />
+    <Compile Include="Dto\SearchResult.cs" />
     <Compile Include="IGithubBrowser.cs" />
     <Compile Include="Dto\Parent.cs" />
     <Compile Include="Dto\Repo.cs" />
     <Compile Include="Dto\Stats.cs" />
     <Compile Include="Dto\Tree.cs" />
     <Compile Include="Dto\User.cs" />
+    <Compile Include="IGitHubUserSearchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
