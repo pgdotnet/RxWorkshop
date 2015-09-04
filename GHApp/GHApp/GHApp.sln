@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.Contracts", "GHApp.Contracts\GHApp.Contracts.csproj", "{B05D0F41-BBA4-465B-92BB-2F976D0DB702}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.Service", "GHApp.Service\GHApp.Service.csproj", "{BAFD1822-B31B-4B6C-852A-3D90F7FD1ACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHApp.UI", "GHApp.UI\GHApp.UI.csproj", "{017955B2-6F12-45F5-9753-7D43D209E170}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BAFD1822-B31B-4B6C-852A-3D90F7FD1ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAFD1822-B31B-4B6C-852A-3D90F7FD1ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAFD1822-B31B-4B6C-852A-3D90F7FD1ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017955B2-6F12-45F5-9753-7D43D209E170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017955B2-6F12-45F5-9753-7D43D209E170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017955B2-6F12-45F5-9753-7D43D209E170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017955B2-6F12-45F5-9753-7D43D209E170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
