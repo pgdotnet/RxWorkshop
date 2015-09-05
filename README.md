@@ -6,6 +6,11 @@ Prowadzący: **Nikodem Rafalski, Grzegorz Jachimko, Bartosz Sokół**
 ## Aplikcaje demo
 
 ## Aplikacja przykładowa - przeglądarka GitHuba
+* GHApp.Communication - warstwa komunikacyjna - klient/serwer UDP
+* GHApp.Contracts - klasy współdzielone pomiędzy serwisem i UI
+* GHApp.Service - serwis komunikujący się z GitHubem
+* GHApp.UI - klient do serwisu - aplikacja WPF
+* GHApp.Tests - testy jednostkowe
 
 ## Przydatne linki
 * [Dokumentacja do Rx dla różnych platform](http://reactivex.io/)
