@@ -34,7 +34,7 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.GetReposCommand}"
-                                               CommandParameter="{Binding Name}">
+                                               CommandParameter="{Binding}">
                                         <Run Text="{Binding Name}" />
                                     </Hyperlink>
                                 </TextBlock>
@@ -60,7 +60,7 @@
             </Grid>
         </Grid>
 
-        <ListView Grid.Column="1" MinWidth="100" MaxWidth="200" ItemsSource="{Binding Favourites}" Margin="4">
+        <ListView Grid.Column="1" MinWidth="100" MaxWidth="200" ItemsSource="{Binding Commits}" Margin="4">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="32">
@@ -69,10 +69,10 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Rectangle Grid.Column="0" Width="24" Height="24" Margin="4" Fill="Orange" />
-                        <TextBlock Grid.Column="0" Text="{Binding NewCommitsCount}" Foreground="Black" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Rectangle Grid.Column="0" Height="24" Margin="2" Fill="LightGray" />
+                        <TextBlock Grid.Column="0" Text="{Binding Author.Name, StringFormat={}{0}: }" Foreground="Black" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" />
 
-                        <TextBlock Grid.Column="1" Text="{Binding Repo.Name}" FontSize="14" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding CommitInfo.Message}" FontSize="10" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -7,6 +7,6 @@ namespace GHApp.Contracts.Notifications
     [Serializable]
     public class RepoNotification : MessageBase
     {
-        public Repo Repo { get; set; }
+        public Commit Commit { get; set; }
     }
 }
