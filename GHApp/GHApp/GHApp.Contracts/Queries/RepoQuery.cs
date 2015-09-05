@@ -1,17 +1,18 @@
 ﻿using System;
 using GHApp.Communication;
+using GHApp.Contracts.Dto;
 
 namespace GHApp.Contracts.Queries
 {
     [Serializable]
     public class RepoQuery : MessageBase
     {
-        public string Username { get; private set; }
+        public User User { get; private set; }
 
-        public RepoQuery(string username)
+        public RepoQuery(User user)
             : base(null)
         {
-            Username = username;
+            User = user;
         }
     }
 }

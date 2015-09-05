@@ -16,12 +16,12 @@ namespace GHApp.UI
         private readonly IService<RepoQuery, RepoResponse> _repoService;
         private readonly ITopic<RepoNotification> _repoTopic;
 
-        private ObservableCollection<FavouriteRepoViewModel> _favourites = new ObservableCollection<FavouriteRepoViewModel>();
+        private ObservableCollection<Commit> _commits = new ObservableCollection<Commit>();
 
-        public ObservableCollection<FavouriteRepoViewModel> Favourites
+        public ObservableCollection<Commit> Commits
         {
-            get { return _favourites; }
-            set { _favourites = value; }
+            get { return _commits; }
+            set { _commits = value; }
         }
 
         private ObservableCollection<User> _userSearchResults = new ObservableCollection<User>();
@@ -47,8 +47,9 @@ namespace GHApp.UI
             _repoTopic = repoTopic;
 
             _repoTopic.Messages
+                .Select(n => n.Commit)
                 .ObserveOnDispatcher()
-                .Subscribe(x => Favourites.Add(new FavouriteRepoViewModel { NewCommitsCount = 0, Repo = new Repo { Name = "xxx" } }));
+                .Subscribe(Commits.Add);
         }
 
         private ICommand _findUserCommand;
@@ -83,9 +84,11 @@ namespace GHApp.UI
 
         private void GetRepos(object parameter)
         {
-            string user = parameter == null ? null : parameter.ToString();
+            User user = parameter as User;
             if (user != null)
-                _repoService.Query(new RepoQuery(user)).Subscribe(x => { });
+                _repoService.Query(new RepoQuery(user))
+                    .ObserveOnDispatcher()
+                    .Subscribe(res => { res.Repos.ForEach(RepoSearchResults.Add); });
         }
 
         private void AddToFavourites(object parameter)

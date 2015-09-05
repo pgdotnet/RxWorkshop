@@ -26,14 +26,15 @@ namespace GHApp.Communication
             return Observable.Create<TResponse>(
                 observer =>
                 {
-                    var composite = new CompositeDisposable();
-                    composite.Add(_responseChannel.MessageStream
-                        .Where(m => m != null && m.GetType() == typeof(TResponse))
-                        .Cast<TResponse>()
-                        .Where(m => m.Id == parameter.Id)
-                        .Subscribe(observer));
-                    composite.Add(_queryChannel.SendMessage(parameter).Subscribe());
-                    return composite;
+                    return new CompositeDisposable
+                    {
+                        _responseChannel.MessageStream
+                            .Where(m => m != null && m.GetType() == typeof (TResponse))
+                            .Cast<TResponse>()
+                            .Where(m => m.Id == parameter.Id)
+                            .Subscribe(observer),
+                        _queryChannel.SendMessage(parameter).Subscribe()
+                    };
                 });
         }
     }
