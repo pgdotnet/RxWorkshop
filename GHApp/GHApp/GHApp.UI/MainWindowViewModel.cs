@@ -13,6 +13,7 @@ namespace GHApp.UI
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IService<UserQuery, UserResponse> _userService;
+        private readonly IService<RepoQuery, RepoResponse> _repoService;
         private readonly ITopic<RepoNotification> _repoTopic;
 
         private ObservableCollection<FavouriteRepoViewModel> _favourites = new ObservableCollection<FavouriteRepoViewModel>();
@@ -39,9 +40,10 @@ namespace GHApp.UI
             set { _repoSearchResults = value; }
         }
 
-        public MainWindowViewModel(IService<UserQuery, UserResponse> userService, ITopic<RepoNotification> repoTopic)
+        public MainWindowViewModel(IService<UserQuery, UserResponse> userService, IService<RepoQuery, RepoResponse> repoService, ITopic<RepoNotification> repoTopic)
         {
             _userService = userService;
+            _repoService = repoService;
             _repoTopic = repoTopic;
 
             _repoTopic.Messages
@@ -56,11 +58,41 @@ namespace GHApp.UI
             get { return _findUserCommand ?? (_findUserCommand = new ReactiveCommand(FindUser)); }
         }
 
+        private ICommand _getReposCommand;
+
+        public ICommand GetReposCommand
+        {
+            get { return _getReposCommand ?? (_getReposCommand = new ReactiveCommand(GetRepos)); }
+        }
+
+        private ICommand _addToFavouritesCommand;
+
+        public ICommand AddToFavouritesCommand
+        {
+            get { return _addToFavouritesCommand ?? (_addToFavouritesCommand = new ReactiveCommand(AddToFavourites)); }
+        }
+
         private void FindUser(object parameter)
         {
-            string user = parameter?.ToString();
+            string user = parameter == null ? null : parameter.ToString();
             if (user != null)
-                _userService.Query(new UserQuery(user)).Subscribe(x => { });
+                _userService.Query(new UserQuery(user))
+                    .ObserveOnDispatcher()
+                    .Subscribe(res => { res.Users.ForEach(UserSearchResults.Add); });
+        }
+
+        private void GetRepos(object parameter)
+        {
+            string user = parameter == null ? null : parameter.ToString();
+            if (user != null)
+                _repoService.Query(new RepoQuery(user)).Subscribe(x => { });
+        }
+
+        private void AddToFavourites(object parameter)
+        {
+            Repo repo = parameter as Repo;
+            if (repo != null)
+                ;
         }
     }
 }

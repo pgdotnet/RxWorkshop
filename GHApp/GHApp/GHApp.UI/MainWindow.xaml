@@ -22,26 +22,42 @@
             <Button Grid.Row="0" Grid.Column="1" Content="Search" Margin="4"
                     Command="{Binding FindUserCommand}" CommandParameter="{Binding ElementName=SearchText, Path=Text}" />
 
-            <TabControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                <TabItem Header="Users">
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Grid.Column="0" Header="Users">
                     <ListView ItemsSource="{Binding UserSearchResults}" Margin="4">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock>
+                                    <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.GetReposCommand}"
+                                               CommandParameter="{Binding Name}">
+                                        <Run Text="{Binding Name}" />
+                                    </Hyperlink>
+                                </TextBlock>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </TabItem>
-                <TabItem Header="Repos">
+                </GroupBox>
+                <GroupBox Grid.Column="1" Header="Repos">
                     <ListView ItemsSource="{Binding RepoSearchResults}" Margin="4">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock>
+                                    <Run Text="{Binding Name}" />
+                                    <Hyperlink FontSize="18" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.AddToFavouritesCommand}"
+                                               CommandParameter="{Binding}">
+                                        [+]
+                                    </Hyperlink>
+                                </TextBlock>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </TabItem>
-            </TabControl>
+                </GroupBox>
+            </Grid>
         </Grid>
 
         <ListView Grid.Column="1" MinWidth="100" MaxWidth="200" ItemsSource="{Binding Favourites}" Margin="4">
