@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Configuration;
+using System.Reactive.Linq;
 using GHApp.Communication;
 using GHApp.Contracts.Dto;
+using GHApp.Contracts.Notifications;
 using GHApp.Contracts.Queries;
 using GHApp.Contracts.Responses;
 
@@ -23,6 +25,11 @@ namespace GHApp.Service
 
             var listener = new Listener<UserQuery, UserResponse>(clientChannel, serverChannel);
             listener.Listen(GetUser);
+
+            var publisher = new Publisher<RepoNotification>(serverChannel);
+            Observable.Interval(TimeSpan.FromSeconds(2))
+                .Select(_ => new RepoNotification())
+                .Subscribe(publisher);
 
             var demos = new Demos();
             demos.WatchRepoDemo();

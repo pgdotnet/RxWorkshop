@@ -66,10 +66,12 @@
     <Compile Include="ChannelNames.cs" />
     <Compile Include="IChannelConfig.cs" />
     <Compile Include="ICommunicationChannel.cs" />
+    <Compile Include="IPublisher.cs" />
     <Compile Include="ITopic.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="IService.cs" />
+    <Compile Include="Publisher.cs" />
     <Compile Include="Topic.cs" />
     <Compile Include="MessageBase.cs" />
     <Compile Include="Listener.cs" />

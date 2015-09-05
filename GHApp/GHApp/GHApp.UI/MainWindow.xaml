@@ -41,9 +41,9 @@
                         </Grid.ColumnDefinitions>
 
                         <Rectangle Grid.Column="0" Width="24" Height="24" Margin="4" Fill="Orange" />
-                        <TextBlock Grid.Column="0" Text="5" Foreground="Black" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="0" Text="{Binding NewCommitsCount}" Foreground="Black" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-                        <TextBlock Grid.Column="1" Text="{Binding}" FontSize="14" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding Repo.Name}" FontSize="14" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
