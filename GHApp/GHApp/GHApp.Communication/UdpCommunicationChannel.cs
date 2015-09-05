@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace GHApp.Communication
@@ -10,6 +12,10 @@ namespace GHApp.Communication
 	{
 		private readonly IUdpClientServer _udpClientServer;
 		private readonly IChannelConfig _channelConfig;
+		private readonly CompositeDisposable _disposable = new CompositeDisposable();
+		private readonly object _lock = new object();
+
+		private Subject<object> _messageSubject;
 
 		public UdpCommunicationChannel(IUdpClientServer udpClientServer, IChannelConfig channelConfig)
 		{
@@ -19,7 +25,18 @@ namespace GHApp.Communication
 
 		public IObservable<object> MessageStream
 		{
-			get { return _udpClientServer.Listen(_channelConfig.Port).Select(Deserialize); }
+			get
+			{
+				lock (_lock)
+				{
+					if (_messageSubject == null)
+					{
+						_messageSubject = new Subject<object>();
+						_disposable.Add(_udpClientServer.Listen(_channelConfig.Port).Select(Deserialize).Subscribe(_messageSubject));
+					}
+				}
+				return _messageSubject.AsObservable();
+			}
 		}
 
 		public IObservable<Unit> SendMessage(object message)
@@ -55,6 +72,11 @@ namespace GHApp.Communication
 				BinaryFormatter formatter = new BinaryFormatter();
 				return formatter.Deserialize(stream);
 			}
+		}
+
+		public void Dispose()
+		{
+			_disposable.Dispose();
 		}
 	}
 }

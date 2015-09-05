@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Windows;
 using GHApp.Communication;
-using GHApp.Contracts;
+using GHApp.Contracts.Queries;
 using Microsoft.Practices.Unity;
 
 namespace GHApp.UI
@@ -37,6 +37,9 @@ namespace GHApp.UI
 
 			container.RegisterType(typeof(IService<,>), typeof(Service<,>), new ContainerControlledLifetimeManager());
 			container.RegisterType(typeof(ITopic<>), typeof(Topic<>), new ContainerControlledLifetimeManager());
+
+			var ch = container.Resolve<ICommunicationChannel>(ChannelNames.Client);
+			ch.SendMessage(new UserQuery("xxx"));
 
 			//container.RegisterType<IInteraction, Interaction>(new ContainerControlledLifetimeManager());
 			//container.RegisterType<ICommandProxy, CommandProxy>();
