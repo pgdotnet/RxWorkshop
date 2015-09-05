@@ -7,7 +7,7 @@ using GHApp.Contracts.Responses;
 
 namespace GHApp.Service
 {
-    internal class Program
+    public class Program
     {
         public static void Main()
         {

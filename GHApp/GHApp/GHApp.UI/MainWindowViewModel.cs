@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GHApp.Communication;
+using GHApp.Contracts.Dto;
 using GHApp.Contracts.Queries;
 using GHApp.Contracts.Responses;
 
@@ -11,29 +12,20 @@ namespace GHApp.UI
     {
         private readonly IService<UserQuery, UserResponse> _userService;
 
-        private List<string> _favourites = new List<string>
-        {
-            "shanselman\\SuperRepo",
-            "bartsokol\\WuPeEf",
-            "nikodemrafalski\\eRiXy"
-        };
+        private ObservableCollection<FavouriteRepoViewModel> _favourites = new ObservableCollection<FavouriteRepoViewModel>();
 
-        public List<string> Favourites
+        public ObservableCollection<FavouriteRepoViewModel> Favourites
         {
             get { return _favourites; }
-            set
-            {
-                _favourites = value;
-                OnPropertyChanged();
-            }
+            set { _favourites = value; }
         }
 
-        private ICommand _clickCommand;
+        private ObservableCollection<Repo> _searchResults = new ObservableCollection<Repo>();
 
-        public ICommand ClickCommand
+        public ObservableCollection<Repo> SearchResults
         {
-            get { return _clickCommand ?? (_clickCommand = new ReactiveCommand(Click)); }
-
+            get { return _searchResults; }
+            set { _searchResults = value; }
         }
 
         public MainWindowViewModel(IService<UserQuery, UserResponse> userService)
@@ -41,9 +33,18 @@ namespace GHApp.UI
             _userService = userService;
         }
 
-        private void Click(object parameter)
+        private ICommand _findUserCommand;
+
+        public ICommand FindUserCommand
         {
-            _userService.Query(new UserQuery("alibaba")).Subscribe(x => { });
+            get { return _findUserCommand ?? (_findUserCommand = new ReactiveCommand(FindUser)); }
+        }
+
+        private void FindUser(object parameter)
+        {
+            string user = parameter?.ToString();
+            if (user != null)
+                _userService.Query(new UserQuery(user)).Subscribe(x => { });
         }
     }
 }
