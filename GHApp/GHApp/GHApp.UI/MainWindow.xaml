@@ -12,14 +12,15 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0" Grid.Column="0" Margin="4" Name="SearchText" />
-            <Button Grid.Row="0" Grid.Column="1" Content="Search" Margin="4"
+            <TextBox Grid.Row="0" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="4" Name="SearchText" />
+            <Button Grid.Row="0" Grid.Column="1" Content="Search" Margin="4" Name="SearchButton"
                     Command="{Binding FindUserCommand}" CommandParameter="{Binding ElementName=SearchText, Path=Text}" />
 
             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
@@ -35,7 +36,7 @@
                                 <TextBlock>
                                     <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.GetReposCommand}"
                                                CommandParameter="{Binding}">
-                                        <Run Text="{Binding Name}" />
+                                        <Run Text="{Binding Login}" />
                                     </Hyperlink>
                                 </TextBlock>
                             </DataTemplate>
@@ -58,6 +59,8 @@
                     </ListView>
                 </GroupBox>
             </Grid>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Property}" />
         </Grid>
 
         <ListView Grid.Column="1" MinWidth="100" MaxWidth="200" ItemsSource="{Binding Commits}" Margin="4">

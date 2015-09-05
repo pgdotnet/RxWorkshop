@@ -21,7 +21,7 @@ namespace GHApp.Service
 
         public IObservable<IEnumerable<User>> FindUser(string userNamePart)
         {
-            string queryString = "https://api.github.com/search/users?q={0}&page={1}&per_page=10";
+            string queryString = "https://api.github.com/search/users?q={0}&page={1}&per_page=20";
 
             return Observable.Using(_factory.CreateHttpClient, client =>
             {
@@ -31,18 +31,17 @@ namespace GHApp.Service
                     int currentPage = 0;
                     bool hasMoreData = true;
 
-                    while (!token.IsCancellationRequested && hasMoreData)
-                    {
-
+                    //while (!token.IsCancellationRequested && hasMoreData)
+                    //{
                         var request = string.Format(queryString, userNamePart, currentPage);
                         var resultString = await client.GetStringAsync(request);
 
                         var result = JsonConvert.DeserializeObject<SearchResult>(resultString);
                         readRecords += result.Users.Length;
                         ++currentPage;
-                        hasMoreData = readRecords < result.TotalCount;
+                        //hasMoreData = readRecords < result.TotalCount;
                         o.OnNext(result.Users);
-                    }
+                    //}
                     Console.WriteLine("Exiting - cancelation {0}", token.IsCancellationRequested);
                     o.OnCompleted();
                 });

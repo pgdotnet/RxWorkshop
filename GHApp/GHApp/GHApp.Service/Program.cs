@@ -38,22 +38,22 @@ namespace GHApp.Service
             var repoListener = new Listener<RepoQuery, RepoResponse>(clientChannel, serverChannel);
             repoListener.ListenObservable(GetRepo);
 
+            var favListener = new Listener<FavQuery, FavResponse>(clientChannel, serverChannel);
+            favListener.ListenObservable(AddToFav);
+
             var publisher = new Publisher<RepoNotification>(serverChannel);
             _githubBrowser.NewCommitsFeed
                 .Select(c => new RepoNotification { Commit = c })
                 .Subscribe(publisher);
 
-            var demos = new Demos();
-            demos.WatchRepoDemo();
+            Console.ReadLine();
         }
 
         private static IObservable<UserResponse> GetUser(UserQuery query)
         {
             Console.WriteLine("Got UserQuery({0}), Id = {1}", query.Name, query.Id);
-            return _githubBrowser.GetUser("nikodemrafalski")
-                .Select(u => new UserResponse(query.Id, new List<User> { u }));
-            //return _userService.FindUser(query.Name)
-            //    .Select(u => new UserResponse(query.Id, u.ToList()));
+            return _userService.FindUser(query.Name)
+                .Select(u => new UserResponse(query.Id, u.ToList()));
         }
 
         private static IObservable<RepoResponse> GetRepo(RepoQuery query)
@@ -61,6 +61,13 @@ namespace GHApp.Service
             Console.WriteLine("Got RepoQuery({0}), Id = {1}", query.User.Name, query.Id);
             return _githubBrowser.GetRepos(query.User)
                 .Select(r => new RepoResponse(query.Id, r.ToList()));
+        }
+
+        private static IObservable<FavResponse> AddToFav(FavQuery query)
+        {
+            Console.WriteLine("Got FavQuery({0}), Id = {1}", query.Repo.Name, query.Id);
+            return _githubBrowser.StartWatchingRepo(query.Repo)
+                .Select(u => new FavResponse(query.Id));
         }
     }
 }
