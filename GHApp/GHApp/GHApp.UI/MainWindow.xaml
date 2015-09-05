@@ -22,13 +22,26 @@
             <Button Grid.Row="0" Grid.Column="1" Content="Search" Margin="4"
                     Command="{Binding FindUserCommand}" CommandParameter="{Binding ElementName=SearchText, Path=Text}" />
 
-            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding SearchResults}" Margin="4">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <TabControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <TabItem Header="Users">
+                    <ListView ItemsSource="{Binding UserSearchResults}" Margin="4">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Repos">
+                    <ListView ItemsSource="{Binding RepoSearchResults}" Margin="4">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </TabItem>
+            </TabControl>
         </Grid>
 
         <ListView Grid.Column="1" MinWidth="100" MaxWidth="200" ItemsSource="{Binding Favourites}" Margin="4">

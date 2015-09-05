@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
 
@@ -21,7 +20,8 @@ namespace GHApp.Service
         {
             string queryString = "https://api.github.com/search/users?q={0}&page={1}&per_page=10";
 
-            throw new NotImplementedException();
+            var subject = new ReplaySubject<IEnumerable<User>>();
+            return subject.AsObservable();
         }
     }
 }

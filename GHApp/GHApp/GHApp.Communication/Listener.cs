@@ -33,6 +33,15 @@ namespace GHApp.Communication
             _compositeDisposable.Add(disposable);
         }
 
+        public void ListenObservable(Func<TQuery, IObservable<TResponse>> processFunc)
+        {
+            var disposable = _queryChannel.MessageStream
+                .Where(m => m != null && m.GetType() == typeof(TQuery))
+                .Cast<TQuery>()
+                .Subscribe(m => _compositeDisposable.Add(processFunc(m).Subscribe(p => _compositeDisposable.Add(_responseChannel.SendMessage(p).Subscribe()))));
+            _compositeDisposable.Add(disposable);
+        }
+
         public void Dispose()
         {
             _compositeDisposable.Dispose();

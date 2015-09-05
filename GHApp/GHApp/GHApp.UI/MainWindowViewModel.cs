@@ -23,12 +23,20 @@ namespace GHApp.UI
             set { _favourites = value; }
         }
 
-        private ObservableCollection<Repo> _searchResults = new ObservableCollection<Repo>();
+        private ObservableCollection<User> _userSearchResults = new ObservableCollection<User>();
 
-        public ObservableCollection<Repo> SearchResults
+        public ObservableCollection<User> UserSearchResults
         {
-            get { return _searchResults; }
-            set { _searchResults = value; }
+            get { return _userSearchResults; }
+            set { _userSearchResults = value; }
+        }
+
+        private ObservableCollection<Repo> _repoSearchResults = new ObservableCollection<Repo>();
+
+        public ObservableCollection<Repo> RepoSearchResults
+        {
+            get { return _repoSearchResults; }
+            set { _repoSearchResults = value; }
         }
 
         public MainWindowViewModel(IService<UserQuery, UserResponse> userService, ITopic<RepoNotification> repoTopic)
