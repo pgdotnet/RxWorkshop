@@ -6,14 +6,14 @@ using GHApp.Contracts.Dto;
 namespace GHApp.Contracts.Responses
 {
     [Serializable]
-    public class UserResponse : MessageBase
+    public class RepoResponse : MessageBase
     {
-        public List<User> Users { get; private set; }
+        public List<Repo> Repos { get; private set; }
 
-        public UserResponse(Guid id, List<User> users)
+        public RepoResponse(Guid id, List<Repo> repos)
             : base(id)
         {
-            Users = users;
+            Repos = repos;
         }
     }
 }

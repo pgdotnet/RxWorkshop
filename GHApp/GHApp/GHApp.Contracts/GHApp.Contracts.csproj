@@ -76,7 +76,9 @@
     <Compile Include="IGitHubUserSearchService.cs" />
     <Compile Include="Notifications\RepoNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\RepoQuery.cs" />
     <Compile Include="Queries\UserQuery.cs" />
+    <Compile Include="Responses\RepoResponse.cs" />
     <Compile Include="Responses\UserResponse.cs" />
   </ItemGroup>
   <ItemGroup>
