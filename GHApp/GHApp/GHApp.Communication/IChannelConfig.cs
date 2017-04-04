@@ -1,9 +1,9 @@
 ﻿namespace GHApp.Communication
 {
-	public interface IChannelConfig
-	{
-		string Address { get; set; }
+    public interface IChannelConfig
+    {
+        string Address { get; set; }
 
-		int Port { get; set; }
-	}
+        int Port { get; set; }
+    }
 }

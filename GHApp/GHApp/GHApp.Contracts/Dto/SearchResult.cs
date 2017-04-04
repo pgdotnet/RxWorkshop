@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace GHApp.Contracts.Dto
@@ -14,6 +10,6 @@ namespace GHApp.Contracts.Dto
         public int TotalCount { get; set; }
 
         [JsonProperty("items")]
-        public User[] Users { get; set; } 
+        public User[] Users { get; set; }
     }
 }

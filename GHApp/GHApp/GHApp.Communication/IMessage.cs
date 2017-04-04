@@ -2,8 +2,8 @@
 
 namespace GHApp.Communication
 {
-	public interface IMessage
-	{
-		Guid Id { get; }
-	}
+    public interface IMessage
+    {
+        Guid Id { get; }
+    }
 }

@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 namespace GHApp.Communication
 {
     /// <summary>
-    /// Observes client messages, notifies on server stream
+    ///     Observes client messages, notifies on server stream
     /// </summary>
     /// <typeparam name="TQuery"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
@@ -14,11 +14,12 @@ namespace GHApp.Communication
         where TQuery : class, IMessage
         where TResponse : class, IMessage
     {
+        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
         private readonly ICommunicationChannel _queryChannel;
         private readonly ICommunicationChannel _responseChannel;
-        private readonly CompositeDisposable _compositeDisposable = new CompositeDisposable();
 
-        public Listener([Dependency(ChannelNames.Client)]ICommunicationChannel queryChannel, [Dependency(ChannelNames.Server)]ICommunicationChannel responseChannel)
+        public Listener([Dependency(ChannelNames.Client)] ICommunicationChannel queryChannel,
+            [Dependency(ChannelNames.Server)] ICommunicationChannel responseChannel)
         {
             _queryChannel = queryChannel;
             _responseChannel = responseChannel;
@@ -38,7 +39,8 @@ namespace GHApp.Communication
             var disposable = _queryChannel.MessageStream
                 .Where(m => m != null && m.GetType() == typeof(TQuery))
                 .Cast<TQuery>()
-                .Subscribe(m => _compositeDisposable.Add(processFunc(m).Subscribe(p => _compositeDisposable.Add(_responseChannel.SendMessage(p).Subscribe()))));
+                .Subscribe(m => _compositeDisposable.Add(processFunc(m)
+                    .Subscribe(p => _compositeDisposable.Add(_responseChannel.SendMessage(p).Subscribe()))));
             _compositeDisposable.Add(disposable);
         }
 

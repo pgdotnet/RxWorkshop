@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reactive.Linq;
 using GHApp.Communication;
 using GHApp.Contracts;
-using GHApp.Contracts.Dto;
 using GHApp.Contracts.Notifications;
 using GHApp.Contracts.Queries;
 using GHApp.Contracts.Responses;
@@ -26,8 +24,10 @@ namespace GHApp.Service
             var clientPort = int.Parse(ConfigurationManager.AppSettings.Get("ClientPort"));
 
             var cs = new UdpClientServer();
-            var serverChannel = new UdpCommunicationChannel(cs, new ChannelConfig { Address = serverAddress, Port = serverPort });
-            var clientChannel = new UdpCommunicationChannel(cs, new ChannelConfig { Address = clientAddress, Port = clientPort });
+            var serverChannel = new UdpCommunicationChannel(cs,
+                new ChannelConfig {Address = serverAddress, Port = serverPort});
+            var clientChannel = new UdpCommunicationChannel(cs,
+                new ChannelConfig {Address = clientAddress, Port = clientPort});
 
             _userService = new GitHubUserSearchService(new HttpClientFactory());
             _githubBrowser = new GithubBrowser(new HttpClientFactory());
@@ -43,7 +43,7 @@ namespace GHApp.Service
 
             var publisher = new Publisher<RepoNotification>(serverChannel);
             _githubBrowser.NewCommitsFeed
-                .Select(c => new RepoNotification { Commit = c })
+                .Select(c => new RepoNotification {Commit = c})
                 .Subscribe(publisher);
 
             Console.ReadLine();

@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 namespace GHApp.UI
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
@@ -21,19 +21,25 @@ namespace GHApp.UI
 
             var serverAddress = ConfigurationManager.AppSettings.Get("ServerAddress");
             var serverPort = int.Parse(ConfigurationManager.AppSettings.Get("ServerPort"));
-            container.RegisterInstance<IChannelConfig>(ChannelNames.Server, new ChannelConfig { Address = serverAddress, Port = serverPort }, new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IChannelConfig>(ChannelNames.Server,
+                new ChannelConfig {Address = serverAddress, Port = serverPort},
+                new ContainerControlledLifetimeManager());
             container.RegisterType<ICommunicationChannel, UdpCommunicationChannel>(
                 ChannelNames.Server,
                 new ContainerControlledLifetimeManager(),
-                new InjectionFactory(c => new UdpCommunicationChannel(c.Resolve<IUdpClientServer>(), c.Resolve<IChannelConfig>(ChannelNames.Server))));
+                new InjectionFactory(c => new UdpCommunicationChannel(c.Resolve<IUdpClientServer>(),
+                    c.Resolve<IChannelConfig>(ChannelNames.Server))));
 
             var clientAddress = ConfigurationManager.AppSettings.Get("ClientAddress");
             var clientPort = int.Parse(ConfigurationManager.AppSettings.Get("ClientPort"));
-            container.RegisterInstance<IChannelConfig>(ChannelNames.Client, new ChannelConfig { Address = clientAddress, Port = clientPort }, new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IChannelConfig>(ChannelNames.Client,
+                new ChannelConfig {Address = clientAddress, Port = clientPort},
+                new ContainerControlledLifetimeManager());
             container.RegisterType<ICommunicationChannel, UdpCommunicationChannel>(
                 ChannelNames.Client,
                 new ContainerControlledLifetimeManager(),
-                new InjectionFactory(c => new UdpCommunicationChannel(c.Resolve<IUdpClientServer>(), c.Resolve<IChannelConfig>(ChannelNames.Client))));
+                new InjectionFactory(c => new UdpCommunicationChannel(c.Resolve<IUdpClientServer>(),
+                    c.Resolve<IChannelConfig>(ChannelNames.Client))));
 
             container.RegisterType(typeof(IService<,>), typeof(Service<,>), new ContainerControlledLifetimeManager());
             container.RegisterType(typeof(ITopic<>), typeof(Topic<>), new ContainerControlledLifetimeManager());

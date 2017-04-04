@@ -7,6 +7,7 @@ namespace GHApp.Contracts
 {
     public interface IGithubBrowser
     {
+        IObservable<Commit> NewCommitsFeed { get; }
         IObservable<User> GetUser(string username);
 
         IObservable<IEnumerable<Repo>> GetRepos(User user);
@@ -16,7 +17,5 @@ namespace GHApp.Contracts
         IObservable<Unit> StopWatchingRepo(Repo repo);
 
         IObservable<Unit> StartWatchingRepo(Repo repo);
-
-        IObservable<Commit> NewCommitsFeed { get; }
     }
 }

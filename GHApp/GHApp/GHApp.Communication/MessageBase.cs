@@ -2,14 +2,14 @@
 
 namespace GHApp.Communication
 {
-	[Serializable]
-	public abstract class MessageBase : IMessage
-	{
-		public Guid Id { get; private set; }
+    [Serializable]
+    public abstract class MessageBase : IMessage
+    {
+        protected MessageBase(Guid? id = null)
+        {
+            Id = id ?? Guid.NewGuid();
+        }
 
-		protected MessageBase(Guid? id = null)
-		{
-			Id = id ?? Guid.NewGuid();
-		}
-	}
+        public Guid Id { get; }
+    }
 }

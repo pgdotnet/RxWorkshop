@@ -16,8 +16,8 @@ namespace GHApp.Service
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly Subject<Commit> _feedSubject = new Subject<Commit>();
-        private readonly Dictionary<Repo, RepoWatcher> _watchers = new Dictionary<Repo, RepoWatcher>();
         private readonly SerialDisposable _serial = new SerialDisposable();
+        private readonly Dictionary<Repo, RepoWatcher> _watchers = new Dictionary<Repo, RepoWatcher>();
 
         public GithubBrowser(IHttpClientFactory clientFactory)
         {
@@ -71,10 +71,7 @@ namespace GHApp.Service
             });
         }
 
-        public IObservable<Commit> NewCommitsFeed
-        {
-            get { return _feedSubject.AsObservable(); }
-        }
+        public IObservable<Commit> NewCommitsFeed => _feedSubject.AsObservable();
 
         private IObservable<TResult> WrapHttpGet<TResult>(Uri uri)
         {

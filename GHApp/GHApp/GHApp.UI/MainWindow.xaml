@@ -19,7 +19,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="4" Name="SearchText" />
+            <TextBox Grid.Row="0" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Column="0" Margin="4" Name="SearchText" />
             <Button Grid.Row="0" Grid.Column="1" Content="Search" Margin="4" Name="SearchButton"
                     Command="{Binding FindUserCommand}" CommandParameter="{Binding ElementName=SearchText, Path=Text}" />
 
@@ -34,8 +35,9 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock>
-                                    <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.GetReposCommand}"
-                                               CommandParameter="{Binding}">
+                                    <Hyperlink
+                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.GetReposCommand}"
+                                        CommandParameter="{Binding}">
                                         <Run Text="{Binding Login}" />
                                     </Hyperlink>
                                 </TextBlock>
@@ -49,7 +51,8 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <Run Text="{Binding Name}" />
-                                    <Hyperlink FontSize="18" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.AddToFavouritesCommand}"
+                                    <Hyperlink FontSize="18" FontWeight="Bold"
+                                               Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}, Path=DataContext.AddToFavouritesCommand}"
                                                CommandParameter="{Binding}">
                                         [+]
                                     </Hyperlink>
@@ -73,9 +76,12 @@
                         </Grid.ColumnDefinitions>
 
                         <Rectangle Grid.Column="0" Height="24" Margin="2" Fill="LightGray" />
-                        <TextBlock Grid.Column="0" Text="{Binding Author.Name, StringFormat={}{0}: }" Foreground="Black" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" />
+                        <TextBlock Grid.Column="0" Text="{Binding Author.Name, StringFormat={}{0}: }"
+                                   Foreground="Black" FontSize="12" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" Margin="4" />
 
-                        <TextBlock Grid.Column="1" Text="{Binding CommitInfo.Message}" FontSize="10" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding CommitInfo.Message}" FontSize="10"
+                                   VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

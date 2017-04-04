@@ -13,60 +13,24 @@ namespace GHApp.UI
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IService<UserQuery, UserResponse> _userService;
-        private readonly IService<RepoQuery, RepoResponse> _repoService;
         private readonly IService<FavQuery, FavResponse> _favService;
+        private readonly IService<RepoQuery, RepoResponse> _repoService;
         private readonly ITopic<RepoNotification> _repoTopic;
+        private readonly IService<UserQuery, UserResponse> _userService;
 
-        private ObservableCollection<Commit> _commits = new ObservableCollection<Commit>();
+        private ICommand _addToFavouritesCommand;
 
-        public ObservableCollection<Commit> Commits
-        {
-            get { return _commits; }
-            set { _commits = value; }
-        }
+        private ICommand _findUserCommand;
 
-        private ObservableCollection<User> _userSearchResults = new ObservableCollection<User>();
-
-        public ObservableCollection<User> UserSearchResults
-        {
-            get { return _userSearchResults; }
-            set { _userSearchResults = value; }
-        }
-
-        private ObservableCollection<Repo> _repoSearchResults = new ObservableCollection<Repo>();
-
-        public ObservableCollection<Repo> RepoSearchResults
-        {
-            get { return _repoSearchResults; }
-            set { _repoSearchResults = value; }
-        }
-
-        private string _searchText;
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set
-            {
-                _searchText = value;
-                OnPropertyChanged();
-            }
-        }
+        private ICommand _getReposCommand;
 
         private string _property;
 
-        public string Property
-        {
-            get { return _property; }
-            set
-            {
-                _property = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        public MainWindowViewModel(IService<UserQuery, UserResponse> userService, IService<RepoQuery, RepoResponse> repoService, IService<FavQuery, FavResponse> favService, ITopic<RepoNotification> repoTopic)
+        private string _searchText;
+
+        public MainWindowViewModel(IService<UserQuery, UserResponse> userService,
+            IService<RepoQuery, RepoResponse> repoService, IService<FavQuery, FavResponse> favService,
+            ITopic<RepoNotification> repoTopic)
         {
             _userService = userService;
             _repoService = repoService;
@@ -81,31 +45,43 @@ namespace GHApp.UI
             PropertyChangedStream.Where(p => p != "Property").Subscribe(p => Property = p);
         }
 
-        private ICommand _findUserCommand;
+        public ObservableCollection<Commit> Commits { get; set; } = new ObservableCollection<Commit>();
 
-        public ICommand FindUserCommand
+        public ObservableCollection<User> UserSearchResults { get; set; } = new ObservableCollection<User>();
+
+        public ObservableCollection<Repo> RepoSearchResults { get; set; } = new ObservableCollection<Repo>();
+
+        public string SearchText
         {
-            get { return _findUserCommand ?? (_findUserCommand = new ReactiveCommand(FindUser)); }
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+            }
         }
 
-        private ICommand _getReposCommand;
-
-        public ICommand GetReposCommand
+        public string Property
         {
-            get { return _getReposCommand ?? (_getReposCommand = new ReactiveCommand(GetRepos)); }
+            get => _property;
+            set
+            {
+                _property = value;
+                OnPropertyChanged();
+            }
         }
 
-        private ICommand _addToFavouritesCommand;
+        public ICommand FindUserCommand => _findUserCommand ?? (_findUserCommand = new ReactiveCommand(FindUser));
 
-        public ICommand AddToFavouritesCommand
-        {
-            get { return _addToFavouritesCommand ?? (_addToFavouritesCommand = new ReactiveCommand(AddToFavourites)); }
-        }
+        public ICommand GetReposCommand => _getReposCommand ?? (_getReposCommand = new ReactiveCommand(GetRepos));
+
+        public ICommand AddToFavouritesCommand => _addToFavouritesCommand ??
+                                                  (_addToFavouritesCommand = new ReactiveCommand(AddToFavourites));
 
         private void FindUser(object parameter)
         {
             UserSearchResults.Clear();
-            string user = parameter == null ? null : parameter.ToString();
+            var user = parameter == null ? null : parameter.ToString();
             if (user != null)
                 _userService.Query(new UserQuery(user))
                     .ObserveOnDispatcher()
@@ -115,7 +91,7 @@ namespace GHApp.UI
         private void GetRepos(object parameter)
         {
             RepoSearchResults.Clear();
-            User user = parameter as User;
+            var user = parameter as User;
             if (user != null)
                 _repoService.Query(new RepoQuery(user))
                     .ObserveOn(DispatcherScheduler.Current)
@@ -124,7 +100,7 @@ namespace GHApp.UI
 
         private void AddToFavourites(object parameter)
         {
-            Repo repo = parameter as Repo;
+            var repo = parameter as Repo;
             if (repo != null)
                 _favService.Query(new FavQuery(repo))
                     .ObserveOn(DispatcherScheduler.Current)

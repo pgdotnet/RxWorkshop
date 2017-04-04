@@ -8,12 +8,12 @@ namespace GHApp.Contracts.Responses
     [Serializable]
     public class UserResponse : MessageBase
     {
-        public List<User> Users { get; private set; }
-
         public UserResponse(Guid id, List<User> users)
             : base(id)
         {
             Users = users;
         }
+
+        public List<User> Users { get; }
     }
 }

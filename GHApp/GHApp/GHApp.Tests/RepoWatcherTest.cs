@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
@@ -13,8 +12,6 @@ namespace GHApp.Service
     [TestFixture]
     public class RepoWatcherTest
     {
-        private Mock<IGithubBrowser> _browserMock;
-
         [SetUp]
         public void Setup()
         {
@@ -24,11 +21,13 @@ namespace GHApp.Service
                 .Returns(Observable.Empty<IEnumerable<Commit>>());
         }
 
+        private Mock<IGithubBrowser> _browserMock;
+
         [Test]
         public void Should_Get_Commits_Every_10_seconds()
         {
             var someRepo = new Repo();
-            TestScheduler testScheduler = new TestScheduler();
+            var testScheduler = new TestScheduler();
 
             var sut = new RepoWatcher(_browserMock.Object, someRepo, testScheduler);
             _browserMock.Verify(x => x.GetCommits(someRepo), Times.Never);
@@ -36,6 +35,5 @@ namespace GHApp.Service
 
             _browserMock.Verify(x => x.GetCommits(someRepo), Times.Once);
         }
-
     }
 }

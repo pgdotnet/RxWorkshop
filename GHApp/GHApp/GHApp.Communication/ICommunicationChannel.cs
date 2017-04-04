@@ -3,10 +3,10 @@ using System.Reactive;
 
 namespace GHApp.Communication
 {
-	public interface ICommunicationChannel : IDisposable
-	{
-		IObservable<object> MessageStream { get; }
+    public interface ICommunicationChannel : IDisposable
+    {
+        IObservable<object> MessageStream { get; }
 
-		IObservable<Unit> SendMessage(object message);
-	}
+        IObservable<Unit> SendMessage(object message);
+    }
 }

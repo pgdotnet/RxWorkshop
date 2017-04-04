@@ -47,10 +47,7 @@ namespace GHApp.Service
 
             namesToLook.Select(partialName => _userSearchService.FindUser(partialName))
                 .Switch()
-                .Subscribe(users =>
-                {
-                        Console.WriteLine(string.Join(",", users.Select(p => p.Login)));
-                });
+                .Subscribe(users => { Console.WriteLine(string.Join(",", users.Select(p => p.Login))); });
 
             Console.ReadKey();
             namesToLook.OnNext("a");
@@ -81,7 +78,8 @@ namespace GHApp.Service
                 CommitsUrl = new Uri("https://api.github.com/repos/nikodemrafalski/testrepo/commits{/sha}")
             };
 
-            _githubBrowser.NewCommitsFeed.Subscribe(c => Console.WriteLine("new commit! " + c.Sha + " " + c.CommitInfo.Message));
+            _githubBrowser.NewCommitsFeed.Subscribe(
+                c => Console.WriteLine("new commit! " + c.Sha + " " + c.CommitInfo.Message));
             Console.ReadKey();
             _githubBrowser.StartWatchingRepo(someRepo).Subscribe();
             Console.ReadKey();

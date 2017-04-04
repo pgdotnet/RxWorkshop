@@ -9,24 +9,23 @@ namespace GHApp.UI
     public class ViewModelBase : INotifyPropertyChanged
     {
         private readonly Subject<string> _subject;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewModelBase()
         {
             _subject = new Subject<string>();
             Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                h => PropertyChanged += h,
-                h => PropertyChanged -= h
-                ).Subscribe(p => _subject.OnNext(p.EventArgs.PropertyName));
+                    h => PropertyChanged += h,
+                    h => PropertyChanged -= h
+                )
+                .Subscribe(p => _subject.OnNext(p.EventArgs.PropertyName));
         }
+
+        public IObservable<string> PropertyChangedStream => _subject.AsObservable();
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void PublishPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-        }
-
-        public IObservable<string> PropertyChangedStream
-        {
-            get { return _subject.AsObservable(); }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

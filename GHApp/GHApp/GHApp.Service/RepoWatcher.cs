@@ -30,9 +30,11 @@ namespace GHApp.Service
                 .Subscribe(OnCommitsArrived);
         }
 
-        public IObservable<Commit> NewCommits
+        public IObservable<Commit> NewCommits => _newCommitsSubject.AsObservable();
+
+        public void Dispose()
         {
-            get { return _newCommitsSubject.AsObservable(); }
+            _timerDisposal.Dispose();
         }
 
         private void OnCommitsArrived(IEnumerable<Commit> commits)
@@ -40,11 +42,6 @@ namespace GHApp.Service
             var newCommits = commits.Where(c => !_lookup.Contains(c.Sha)).ToList();
             newCommits.ForEach(nc => _lookup.Add(nc.Sha, nc));
             newCommits.ForEach(nc => _newCommitsSubject.OnNext(nc));
-        }
-
-        public void Dispose()
-        {
-            _timerDisposal.Dispose();
         }
     }
 }

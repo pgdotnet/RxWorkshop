@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Threading.Tasks;
 using GHApp.Contracts;
 using GHApp.Contracts.Dto;
 using Newtonsoft.Json;
@@ -21,27 +18,27 @@ namespace GHApp.Service
 
         public IObservable<IEnumerable<User>> FindUser(string userNamePart)
         {
-            string queryString = "https://api.github.com/search/users?q={0}&page={1}&per_page=20";
+            var queryString = "https://api.github.com/search/users?q={0}&page={1}&per_page=20";
 
             return Observable.Using(_factory.CreateHttpClient, client =>
             {
                 return Observable.Create<IEnumerable<User>>(async (o, token) =>
                 {
-                    int readRecords = 0;
-                    int currentPage = 0;
-                    bool hasMoreData = true;
+                    var readRecords = 0;
+                    var currentPage = 0;
+                    var hasMoreData = true;
 
-                    //while (!token.IsCancellationRequested && hasMoreData)
-                    //{
+                    while (!token.IsCancellationRequested && hasMoreData)
+                    {
                         var request = string.Format(queryString, userNamePart, currentPage);
                         var resultString = await client.GetStringAsync(request);
 
                         var result = JsonConvert.DeserializeObject<SearchResult>(resultString);
                         readRecords += result.Users.Length;
                         ++currentPage;
-                        //hasMoreData = readRecords < result.TotalCount;
+                        hasMoreData = readRecords < result.TotalCount;
                         o.OnNext(result.Users);
-                    //}
+                    }
                     Console.WriteLine("Exiting - cancelation {0}", token.IsCancellationRequested);
                     o.OnCompleted();
                 });
