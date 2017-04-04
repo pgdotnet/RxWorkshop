@@ -3,9 +3,9 @@
 
 Prowadzący: **Nikodem Rafalski, Grzegorz Jachimko, Bartosz Sokół**
 
-## Aplikcaje demo
+## Aplikacje demo
 
-## Aplikacja przykładowa - przeglądarka GitHuba
+## Przykładowa aplikacja - przeglądarka GitHuba
 * GHApp.Communication - warstwa komunikacyjna - klient/serwer UDP
 * GHApp.Contracts - klasy współdzielone pomiędzy serwisem i UI
 * GHApp.Service - serwis komunikujący się z GitHubem
